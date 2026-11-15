@@ -1,0 +1,88 @@
+[
+  {
+    "nom": "plats",
+    "enonce": "Paul et Marie commandent chacun exactement un plat : pizza ou salade.\nSi Paul prend une pizza, alors Marie prend une salade.\nPaul prend une pizza.\nQue mange chacun ?",
+    "teste": "implication directe, fait imposé",
+    "attendu": "SAT",
+    "solution_attendue": {"paul": "pizza", "marie": "salade"},
+    "nb_solutions": 1
+  },
+  {
+    "nom": "couleurs",
+    "enonce": "Léa et Tom choisissent chacun exactement une couleur : rouge ou bleu.\nLéa ne choisit pas le rouge.\nTom ne choisit pas la même couleur que Léa.\nQui choisit quoi ?",
+    "teste": "négation explicite (littéraux !)",
+    "attendu": "SAT",
+    "solution_attendue": {"lea": "bleu", "tom": "rouge"},
+    "nb_solutions": 1
+  },
+  {
+    "nom": "desserts",
+    "enonce": "Anna, Karim et Zoé prennent chacun exactement un dessert : gâteau ou glace.\nAnna et Karim ne prennent pas le même dessert.\nKarim et Zoé ne prennent pas le même dessert.\nQui prend quoi ?",
+    "teste": "« pas la même chose » en chaîne (pas_tous par valeur)",
+    "attendu": "SAT",
+    "nb_solutions": 2
+  },
+  {
+    "nom": "boissons",
+    "enonce": "Alice, Bob et Chloé commandent chacun exactement une boisson : thé ou café.\nAlice et Bob ne prennent pas la même boisson.\nSi Chloé prend du thé, alors Bob prend du café.\nChloé prend du thé.\nQui boit quoi ?",
+    "teste": "implication simple, règle implicite « exactement une boisson »",
+    "attendu": "SAT",
+    "solution_attendue": {"alice": "the", "bob": "cafe", "chloe": "the"},
+    "nb_solutions": 1
+  },
+  {
+    "nom": "chevaliers_et_fripons",
+    "enonce": "Sur une île, les chevaliers disent toujours la vérité et les fripons mentent toujours.\nChaque habitant est soit chevalier, soit fripon.\nA dit : « B est un fripon. »\nB dit : « A et moi sommes du même type. »\nQui est chevalier et qui est fripon ?",
+    "teste": "équivalences (« si et seulement si » = 2 implications)",
+    "attendu": "SAT",
+    "solution_attendue": {"a": "chevalier", "b": "fripon"},
+    "nb_solutions": 1
+  },
+  {
+    "nom": "triangle_2_couleurs",
+    "enonce": "Trois villes A, B et C sont reliées deux à deux par des routes.\nChaque ville est peinte d'exactement une couleur : rouge ou bleu.\nDeux villes reliées par une route n'ont jamais la même couleur.\nEst-ce possible ?",
+    "teste": "problème impossible",
+    "attendu": "UNSAT"
+  },
+  {
+    "nom": "triangle_3_couleurs",
+    "enonce": "Trois villes A, B et C sont reliées deux à deux par des routes.\nChaque ville est peinte d'exactement une couleur : rouge, bleu ou vert.\nDeux villes reliées par une route n'ont jamais la même couleur.\nPropose un coloriage.",
+    "teste": "même structure que triangle_2_couleurs mais SAT (à lancer après)",
+    "attendu": "SAT",
+    "nb_solutions": 6
+  },
+  {
+    "nom": "pigeons",
+    "enonce": "Trois personnes doivent être logées dans deux chambres.\nChaque chambre accueille au plus une personne.\nChaque personne doit avoir une chambre.\nEst-ce possible ?",
+    "teste": "UNSAT classique, idéal pour l'explication par noyau insatisfiable",
+    "attendu": "UNSAT"
+  },
+  {
+    "nom": "planning",
+    "enonce": "Quatre réunions (budget, projet, équipe, clients) doivent chacune avoir lieu sur exactement un créneau : 9h ou 11h.\nSophie assiste aux réunions budget et projet, qui ne peuvent donc pas être en même temps.\nMarc assiste aux réunions projet et équipe, qui ne peuvent donc pas être en même temps.\nLa réunion clients est à 9h.\nLa réunion budget n'est pas à 9h.\nPropose un horaire.",
+    "teste": "conflits de créneaux en pas_tous",
+    "attendu": "SAT",
+    "solution_attendue": {"budget": "11h", "projet": "9h", "equipe": "11h", "clients": "9h"},
+    "nb_solutions": 1
+  },
+  {
+    "nom": "einstein_mini",
+    "enonce": "Trois maisons alignées de gauche à droite sont numérotées 1, 2 et 3.\nChaque maison a exactement une couleur (rouge, bleue, verte) et exactement un animal (chat, chien, poisson).\nChaque couleur est utilisée par exactement une maison, chaque animal vit dans exactement une maison.\nLa maison rouge est la maison 1.\nLe chat vit dans la maison verte.\nLa maison bleue est juste à droite de la maison rouge.\nLe chien vit dans la maison rouge.\nOù vit le poisson ?",
+    "teste": "endurance : 18 variables, règles implicites « chaque attribut une seule fois »",
+    "attendu": "SAT",
+    "nb_solutions": 1,
+    "note": "Solution de référence (vérifiée à la main) : maison 1 rouge+chien, maison 2 bleue+poisson, maison 3 verte+chat. Les noms de variables du modèle sont imprévisibles : vérifier via les faits vrais."
+  },
+  {
+    "nom": "einstein_contradictoire",
+    "enonce": "Trois maisons alignées de gauche à droite sont numérotées 1, 2 et 3.\nChaque maison a exactement une couleur (rouge, bleue, verte) et exactement un animal (chat, chien, poisson).\nChaque couleur est utilisée par exactement une maison, chaque animal vit dans exactement une maison.\nLa maison rouge est la maison 1.\nLe chat vit dans la maison verte.\nLa maison bleue est juste à droite de la maison rouge.\nLe chien vit dans la maison 3.\nOù vit le poisson ?",
+    "teste": "UNSAT caché derrière un énoncé qui a l'air normal (verte=3 impose chat=3, mais chien=3)",
+    "attendu": "UNSAT"
+  },
+  {
+    "nom": "fete_ambigue",
+    "enonce": "Paul ou Marie viendra à la fête.\nChacun des deux vient ou ne vient pas.\nQui peut venir ?",
+    "teste": "ambiguïté volontaire : « ou » inclusif ou exclusif ? (pas de bonne réponse, observer le choix du formalisateur)",
+    "attendu": "SAT"
+  }
+]
